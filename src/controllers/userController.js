@@ -1,13 +1,12 @@
 import { StatusCodes } from 'http-status-codes'
+import { userService } from '~/services/userService'
 
-const createUser = (req, res) => {
+const createUser = async (req, res, next) => {
   try {
-    // console.log('req body: ', req.body)
-    res.status(StatusCodes.CREATED).json({ message: 'API create user!' })
+    const response = await userService.createUser(req.body)
+    res.status(StatusCodes.CREATED).json(response)
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      errors: error.message
-    })
+    next(error)
   }
 }
 
