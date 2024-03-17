@@ -1,12 +1,14 @@
 /* eslint-disable no-useless-catch */
+import { userModel } from '~/models/userModel'
+
 const createUser = async (reqBody) => {
   try {
     const newUser = {
-      ...reqBody,
-      avatar: ''
+      ...reqBody
     }
     delete newUser.confirmPassword
-    return newUser
+    const createdUser = await userModel.createUser(newUser)
+    return await userModel.findOneById(createdUser.insertedId)
   } catch (error) {
     throw error
   }
